@@ -42,7 +42,7 @@ git clone https://github.com/adejam/tic-jam-toe.git
 - Install Dependencies
 
 ```bash
-npm run install
+npm install
 ```
 
 To run StyleLint by itself, you may run the lint task:
