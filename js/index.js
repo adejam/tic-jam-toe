@@ -80,20 +80,20 @@ function checkForWin(playerBoard, player) {
   }
 }
 
+function dryPlayerTurn(id, player, thePlayerBoard) {
+  thePlayerBoard.push(id);
+  originalBoard.push(id);
+  document.getElementById(id).innerText = player;
+  checkForWin(thePlayerBoard, player);
+}
+
 function playerTurn(id, player) {
   if (boxes[id].innerText === '') {
+    id = parseInt(id, 10);
     if (player === playerOne) {
-      id = parseInt(id, 10);
-      newBoard.playerOneBoard.push(id);
-      originalBoard.push(id);
-      document.getElementById(id).innerText = player;
-      checkForWin(newBoard.playerOneBoard, player);
+      dryPlayerTurn(id, player, newBoard.playerOneBoard);
     } else {
-      id = parseInt(id, 10);
-      newBoard.playerTwoBoard.push(id);
-      originalBoard.push(id);
-      document.getElementById(id).innerText = player;
-      checkForWin(newBoard.playerTwoBoard, player);
+      dryPlayerTurn(id, player, newBoard.playerTwoBoard);
     }
   }
 }
