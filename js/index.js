@@ -5,8 +5,8 @@ const board = (playerOneBoard, playerTwoBoard) => ({
 
 const p1 = [];
 const p2 = [];
-const newBoard = board(p1, p2);
-const originalBoard = [];
+let newBoard = board(p1, p2);
+let originalBoard = [];
 const playerOne = 'X';
 const playerTwo = 'O';
 const boxes = Array.from(document.querySelectorAll('.box'));
@@ -108,7 +108,12 @@ function whosTurn(box) {
 
 function startGame() {
   document.querySelector('.statusPanel').style.display = 'none';
+  newBoard = board([], []);
+  playerWins = {};
+  originalBoard = [];
   for (let i = 0; i < boxes.length; i += 1) {
+    boxes[i].innerText = '';
+    boxes[i].style.removeProperty('background-color');
     boxes[i].addEventListener('click', whosTurn);
   }
 }
