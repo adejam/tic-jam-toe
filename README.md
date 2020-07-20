@@ -28,7 +28,7 @@ It demostrates the use of javascript factory functions.
 
 ## Live Demo
 
-[Tic-Jam-toe]( https://adejam.github.io/tic-jam-toe/index.html)
+[Tic-Jam-Toe]( https://adejam.github.io/tic-jam-toe/index.html)
 
 ### Development (Running locally)
 
