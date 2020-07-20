@@ -24,8 +24,21 @@ const winAlgorithms = [
 let playerWins = {};
 const checker = (playerBoard, winArray) => winArray.every(v => playerBoard.includes(v));
 
-function gameOver() {
-  // body...
+function gameOver(playerWins) {
+  playerWins.winArray.forEach(winArray => {
+    if (playerWins.player === playerOne) {
+      document.getElementById(winArray).style.backgroundColor = '#28a745';
+      document.querySelector('.statusPanel').style.display = 'block';
+      document.querySelector('.text').innerText = 'Player One Wins!';
+    } else {
+      document.getElementById(winArray).style.backgroundColor = '#17a2b8';
+      document.querySelector('.statusPanel').style.display = 'block';
+      document.querySelector('.text').innerText = 'Player Two Wins!';
+    }
+  });
+  for (let i = 0; i < boxes.length; i += 1) {
+    boxes[i].removeEventListener('click', whosTurn);
+  }
 }
 
 function checkForWin(playerBoard, player) {
@@ -46,12 +59,24 @@ function checkForWin(playerBoard, player) {
       }
     }
   } else {
-    for (let i = 0; i < boxes.length; i += 1) {
-      boxes[i].removeEventListener('click', whosTurn);
-      boxes[i].style.backgroundColor = '#ffc107';
+    let winCount = 0;
+    for (let i = 0; i < winAlgorithms.length; i += 1) {
+      const winArray = winAlgorithms[i];
+      if (checker(playerBoard, winArray) === true) {
+        winCount += 1;
+        playerWins = { winArray, player };
+      }
     }
-    document.querySelector('.statusPanel').style.display = 'block';
-    document.querySelector('.text').innerText = 'Its a Tie!';
+    if (winCount === 1) {
+      gameOver(playerWins);
+    } else {
+      for (let i = 0; i < boxes.length; i += 1) {
+        boxes[i].removeEventListener('click', whosTurn);
+        boxes[i].style.backgroundColor = '#ffc107';
+      }
+      document.querySelector('.statusPanel').style.display = 'block';
+      document.querySelector('.text').innerText = 'Its a Tie!';
+    }
   }
 }
 
