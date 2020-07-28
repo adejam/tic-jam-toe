@@ -24,16 +24,17 @@ const winAlgorithms = [
 let playerWins = {};
 const checker = (playerBoard, winArray) => winArray.every(v => playerBoard.includes(v));
 
+function gameOverResult(winArray, color, display, winText) {
+  document.getElementById(winArray).style.backgroundColor = color;
+  document.querySelector('.statusPanel').style.display = display;
+  document.querySelector('.text').innerText = winText;
+}
 function gameOver(playerWins) {
   playerWins.winArray.forEach(winArray => {
     if (playerWins.player === playerOne) {
-      document.getElementById(winArray).style.backgroundColor = '#28a745';
-      document.querySelector('.statusPanel').style.display = 'block';
-      document.querySelector('.text').innerText = 'Player One Wins!';
+      gameOverResult(winArray,'#28a745', 'block', 'Player One Wins!');
     } else {
-      document.getElementById(winArray).style.backgroundColor = '#17a2b8';
-      document.querySelector('.statusPanel').style.display = 'block';
-      document.querySelector('.text').innerText = 'Player Two Wins!';
+      gameOverResult(winArray,'#17a2b8', 'block', 'Player Two Wins!');
     }
   });
   for (let i = 0; i < boxes.length; i += 1) {
