@@ -50,6 +50,7 @@ function checkForWinChecker(winAlgorithms, checker, playerBoard, player) {
     if (checker(playerBoard, winArray) === true) {
       winCount += 1;
       playerWins = { winArray, player };
+      break;
     }
   }
   return { winCount, playerWins };
