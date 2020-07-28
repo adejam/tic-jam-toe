@@ -32,9 +32,9 @@ function gameOverResult(winArray, color, display, winText) {
 function gameOver(playerWins) {
   playerWins.winArray.forEach(winArray => {
     if (playerWins.player === playerOne) {
-      gameOverResult(winArray,'#28a745', 'block', 'Player One Wins!');
+      gameOverResult(winArray, '#28a745', 'block', 'Player One Wins!');
     } else {
-      gameOverResult(winArray,'#17a2b8', 'block', 'Player Two Wins!');
+      gameOverResult(winArray, '#17a2b8', 'block', 'Player Two Wins!');
     }
   });
   for (let i = 0; i < boxes.length; i += 1) {
@@ -42,34 +42,32 @@ function gameOver(playerWins) {
   }
 }
 
+function checkForWinChecker(winAlgorithms, checker, playerBoard, player) {
+  let winCount = 0;
+  for (let i = 0; i < winAlgorithms.length; i += 1) {
+    const winArray = winAlgorithms[i];
+    if (checker(playerBoard, winArray) === true) {
+      winCount += 1;
+      playerWins = { winArray, player };
+    }
+  }
+  return { winCount, playerWins };
+}
+
 function checkForWin(playerBoard, player) {
   if (originalBoard.length < 9) {
-    let winCount = 0;
-    for (let i = 0; i < winAlgorithms.length; i += 1) {
-      const winArray = winAlgorithms[i];
-      if (checker(playerBoard, winArray) === true) {
-        winCount += 1;
-        playerWins = { winArray, player };
-      }
-    }
-    if (winCount === 1) {
-      gameOver(playerWins);
+    const check = checkForWinChecker(winAlgorithms, checker, playerBoard, player);
+    if (check.winCount === 1) {
+      gameOver(check.playerWins);
     } else {
       for (let i = 0; i < boxes.length; i += 1) {
         boxes[i].addEventListener('click', whosTurn);
       }
     }
   } else {
-    let winCount = 0;
-    for (let i = 0; i < winAlgorithms.length; i += 1) {
-      const winArray = winAlgorithms[i];
-      if (checker(playerBoard, winArray) === true) {
-        winCount += 1;
-        playerWins = { winArray, player };
-      }
-    }
-    if (winCount === 1) {
-      gameOver(playerWins);
+    const check = checkForWinChecker(winAlgorithms, checker, playerBoard, player);
+    if (check.winCount === 1) {
+      gameOver(check.playerWins);
     } else {
       for (let i = 0; i < boxes.length; i += 1) {
         boxes[i].removeEventListener('click', whosTurn);
