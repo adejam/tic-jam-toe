@@ -23,6 +23,7 @@ const winAlgorithms = [
 ];
 let playerWins = {};
 const checker = (playerBoard, winArray) => winArray.every(v => playerBoard.includes(v));
+let whosTurn;
 
 function gameOverResult(winArray, color, display, winText) {
   document.getElementById(winArray).style.backgroundColor = color;
@@ -97,13 +98,13 @@ function playerTurn(id, player) {
   }
 }
 
-function whosTurn(box) {
+whosTurn = e => {
   if (originalBoard.length % 2 === 0) {
-    playerTurn(box.target.id, playerOne);
+    playerTurn(e.target.id, playerOne);
   } else {
-    playerTurn(box.target.id, playerTwo);
+    playerTurn(e.target.id, playerTwo);
   }
-}
+};
 
 function startGame() {
   document.querySelector('.statusPanel').style.display = 'none';
