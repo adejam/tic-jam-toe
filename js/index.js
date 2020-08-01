@@ -22,20 +22,21 @@ const winAlgorithms = [
   [6, 4, 2],
 ];
 let playerWins = {};
-const checker = (playerBoard, winArray) => winArray.every(v => playerBoard.includes(v));
+
 let whosTurn;
 
-function gameOverResult(winArray, color, display, winText) {
-  document.getElementById(winArray).style.backgroundColor = color;
-  document.querySelector('.statusPanel').style.display = display;
+function gameOverResult(winArray, boxHover, color, display, winText) {
+  document.getElementById(winArray).classList.add(color);
+  document.getElementById(winArray).classList.remove(boxHover);
+  document.querySelector('#statusP').classList.remove(display);
   document.querySelector('.text').innerText = winText;
 }
 function gameOver(playerWins) {
   playerWins.winArray.forEach(winArray => {
     if (playerWins.player === playerOne) {
-      gameOverResult(winArray, '#28a745', 'block', 'Player One Wins!');
+      gameOverResult(winArray, 'boxHover', 'bg_green', 'd_none', 'Player One Wins!');
     } else {
-      gameOverResult(winArray, '#17a2b8', 'block', 'Player Two Wins!');
+      gameOverResult(winArray, 'boxHover', 'bg_blue', 'd_none', 'Player Two Wins!');
     }
   });
   for (let i = 0; i < boxes.length; i += 1) {
@@ -43,12 +44,14 @@ function gameOver(playerWins) {
   }
 }
 
-function checkForWinChecker(winAlgorithms, checker, playerBoard, player) {
-  let winCount = 0;
+function checkForWinChecker(winAlgorithms, playerBoard, player) {
+  const checker = (playerBoard, winArray) => winArray.every(v => playerBoard.includes(v));
+  let winCount = false;
   for (let i = 0; i < winAlgorithms.length; i += 1) {
     const winArray = winAlgorithms[i];
     if (checker(playerBoard, winArray) === true) {
-      winCount += 1;
+      // winCount += 1;
+      winCount = true;
       playerWins = { winArray, player };
       break;
     }
@@ -56,26 +59,30 @@ function checkForWinChecker(winAlgorithms, checker, playerBoard, player) {
   return { winCount, playerWins };
 }
 
+function checkForWinTrue(winCount, playerWins) {
+  if (winCount === true) {
+    gameOver(playerWins);
+  }
+}
+
 function checkForWin(playerBoard, player) {
+  const check = checkForWinChecker(winAlgorithms, playerBoard, player);
   if (originalBoard.length < 9) {
-    const check = checkForWinChecker(winAlgorithms, checker, playerBoard, player);
-    if (check.winCount === 1) {
-      gameOver(check.playerWins);
-    } else {
+    checkForWinTrue(check.winCount, check.playerWins);
+    if (check.winCount === false) {
       for (let i = 0; i < boxes.length; i += 1) {
         boxes[i].addEventListener('click', whosTurn);
       }
     }
   } else {
-    const check = checkForWinChecker(winAlgorithms, checker, playerBoard, player);
-    if (check.winCount === 1) {
-      gameOver(check.playerWins);
-    } else {
+    checkForWinTrue(check.winCount, check.playerWins);
+    if (check.winCount === false) {
       for (let i = 0; i < boxes.length; i += 1) {
         boxes[i].removeEventListener('click', whosTurn);
-        boxes[i].style.backgroundColor = '#ffc107';
+        boxes[i].classList.remove('boxHover');
+        boxes[i].classList.add('bg_warning');
       }
-      document.querySelector('.statusPanel').style.display = 'block';
+      document.querySelector('#statusP').classList.remove('d_none');
       document.querySelector('.text').innerText = 'Its a Tie!';
     }
   }
@@ -108,13 +115,20 @@ whosTurn = e => {
 };
 
 function startGame() {
-  document.querySelector('.statusPanel').style.display = 'none';
+  document.querySelector('#statusP').classList.add('d_none');
   newBoard = board([], []);
   playerWins = {};
   originalBoard = [];
   for (let i = 0; i < boxes.length; i += 1) {
     boxes[i].innerText = '';
-    boxes[i].style.removeProperty('background-color');
+    boxes[i].classList.add('boxHover');
+    if (boxes[i].classList.contains('bg_blue')) {
+      boxes[i].classList.remove('bg_blue');
+    } else if (boxes[i].classList.contains('bg_green')) {
+      boxes[i].classList.remove('bg_green');
+    } else if (boxes[i].classList.contains('bg_warning')) {
+      boxes[i].classList.remove('bg_warning');
+    }
     boxes[i].addEventListener('click', whosTurn);
   }
 }
