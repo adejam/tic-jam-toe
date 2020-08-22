@@ -22,6 +22,15 @@ It demostrates the use of javascript factory functions.
 
 - Javascript
 
+  - factory functions
+  - DOM manipulation APIs (i.e: `querySelector()`, `createElement()`, `event Listeners` and more);
+  - Arrow function.
+  - Destructuring assignment.
+  - Spread Operator
+  - Object literal
+  - Template literal
+  - Ternary Operators and more ES6 based syntax.
+
 - [stylint](https://stylelint.io/)
 
 - [NPM](https://www.npmjs.com/)

@@ -16,7 +16,8 @@
 }
 
 .boxDiv {
-  width: 300px;
+  min-width: 300px;
+  width: 50%;
 }
 
 .box {

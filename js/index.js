@@ -1,6 +1,12 @@
+/* eslint no-unused-expressions: ["error", { "allowTernary": true }] */
 const board = (playerOneBoard, playerTwoBoard) => ({
   playerOneBoard,
   playerTwoBoard,
+});
+
+const playerName = (playerOneName, playerTwoName) => ({
+  playerOneName,
+  playerTwoName,
 });
 
 const p1 = [];
@@ -9,6 +15,7 @@ let newBoard = board(p1, p2);
 let originalBoard = [];
 const playerOne = 'X';
 const playerTwo = 'O';
+let newNames;
 const boxes = Array.from(document.querySelectorAll('.box'));
 const playGame = document.querySelector('#playGame');
 const winAlgorithms = [
@@ -25,18 +32,32 @@ let playerWins = {};
 
 let whosTurn;
 
-function gameOverResult(winArray, boxHover, color, display, winText) {
+const gameOverResult = (winArray, boxHover, color, display, winText) => {
   document.getElementById(winArray).classList.add(color);
   document.getElementById(winArray).classList.remove(boxHover);
   document.querySelector('#statusP').classList.remove(display);
   document.querySelector('.text').innerText = winText;
-}
+};
 function gameOver(playerWins) {
   playerWins.winArray.forEach(winArray => {
     if (playerWins.player === playerOne) {
-      gameOverResult(winArray, 'boxHover', 'bg_green', 'd_none', 'Player One Wins!');
+      const gameOverArray = [
+        winArray,
+        'boxHover',
+        'bg_green',
+        'd_none',
+        `${newNames.playerOneName} Wins!`,
+      ];
+      gameOverResult(...gameOverArray);
     } else {
-      gameOverResult(winArray, 'boxHover', 'bg_blue', 'd_none', 'Player Two Wins!');
+      const gameOverArray = [
+        winArray,
+        'boxHover',
+        'bg_blue',
+        'd_none',
+        `${newNames.playerTwoName} Wins!`,
+      ];
+      gameOverResult(...gameOverArray);
     }
   });
   for (let i = 0; i < boxes.length; i += 1) {
@@ -50,7 +71,6 @@ function checkForWinChecker(winAlgorithms, playerBoard, player) {
   for (let i = 0; i < winAlgorithms.length; i += 1) {
     const winArray = winAlgorithms[i];
     if (checker(playerBoard, winArray) === true) {
-      // winCount += 1;
       winCount = true;
       playerWins = { winArray, player };
       break;
@@ -88,7 +108,7 @@ function checkForWin(playerBoard, player) {
   }
 }
 
-function dryPlayerTurn(id, player, thePlayerBoard) {
+function PushToBoards(id, player, thePlayerBoard) {
   thePlayerBoard.push(id);
   originalBoard.push(id);
   document.getElementById(id).innerText = player;
@@ -98,27 +118,27 @@ function dryPlayerTurn(id, player, thePlayerBoard) {
 function playerTurn(id, player) {
   if (boxes[id].innerText === '') {
     id = parseInt(id, 10);
-    if (player === playerOne) {
-      dryPlayerTurn(id, player, newBoard.playerOneBoard);
-    } else {
-      dryPlayerTurn(id, player, newBoard.playerTwoBoard);
-    }
+    const player1Array = [id, player, newBoard.playerOneBoard];
+    const player2Array = [id, player, newBoard.playerTwoBoard];
+    player === playerOne ? PushToBoards(...player1Array) : PushToBoards(...player2Array);
   }
 }
 
-whosTurn = e => {
-  if (originalBoard.length % 2 === 0) {
-    playerTurn(e.target.id, playerOne);
-  } else {
-    playerTurn(e.target.id, playerTwo);
-  }
+whosTurn = ({ target: { id } }) => {
+  originalBoard.length % 2 === 0 ? playerTurn(id, playerOne) : playerTurn(id, playerTwo);
 };
 
-function startGame() {
+function startGame(e) {
+  e.preventDefault();
   document.querySelector('#statusP').classList.add('d_none');
   newBoard = board([], []);
+  const playerOneName = document.querySelector('#playerOneName').value;
+  const playerTwoName = document.querySelector('#playerTwoName').value;
+  newNames = playerName(playerOneName, playerTwoName);
+  playGame.reset();
   playerWins = {};
   originalBoard = [];
+
   for (let i = 0; i < boxes.length; i += 1) {
     boxes[i].innerText = '';
     boxes[i].classList.add('boxHover');
@@ -133,4 +153,4 @@ function startGame() {
   }
 }
 
-playGame.addEventListener('click', startGame);
+playGame.addEventListener('submit', startGame);
