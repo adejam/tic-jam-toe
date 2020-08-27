@@ -108,7 +108,7 @@ function checkForWin(playerBoard, player) {
   }
 }
 
-function PushToBoards(id, player, thePlayerBoard) {
+function pushToBoards(id, player, thePlayerBoard) {
   thePlayerBoard.push(id);
   originalBoard.push(id);
   document.getElementById(id).innerText = player;
@@ -120,7 +120,7 @@ function playerTurn(id, player) {
     id = parseInt(id, 10);
     const player1Array = [id, player, newBoard.playerOneBoard];
     const player2Array = [id, player, newBoard.playerTwoBoard];
-    player === playerOne ? PushToBoards(...player1Array) : PushToBoards(...player2Array);
+    player === playerOne ? pushToBoards(...player1Array) : pushToBoards(...player2Array);
   }
 }
 
@@ -142,13 +142,9 @@ function startGame(e) {
   for (let i = 0; i < boxes.length; i += 1) {
     boxes[i].innerText = '';
     boxes[i].classList.add('boxHover');
-    if (boxes[i].classList.contains('bg_blue')) {
-      boxes[i].classList.remove('bg_blue');
-    } else if (boxes[i].classList.contains('bg_green')) {
-      boxes[i].classList.remove('bg_green');
-    } else if (boxes[i].classList.contains('bg_warning')) {
-      boxes[i].classList.remove('bg_warning');
-    }
+    boxes[i].classList.remove('bg_blue');
+    boxes[i].classList.remove('bg_green');
+    boxes[i].classList.remove('bg_warning');
     boxes[i].addEventListener('click', whosTurn);
   }
 }
