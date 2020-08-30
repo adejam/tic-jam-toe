@@ -142,9 +142,7 @@ function startGame(e) {
   for (let i = 0; i < boxes.length; i += 1) {
     boxes[i].innerText = '';
     boxes[i].classList.add('boxHover');
-    boxes[i].classList.remove('bg_blue');
-    boxes[i].classList.remove('bg_green');
-    boxes[i].classList.remove('bg_warning');
+    boxes[i].classList.remove('bg_blue', 'bg_green', 'bg_warning');
     boxes[i].addEventListener('click', whosTurn);
   }
 }
