@@ -1,0 +1,57 @@
+.headerSection {
+  padding: 50px 0 20px;
+}
+
+.smallText {
+  font-weight: 400;
+  font-size: 10px;
+}
+
+.headerText {
+  margin: 20px 0;
+}
+
+.main {
+  margin-top: 50px;
+}
+
+.boxDiv {
+  min-width: 300px;
+  width: 50%;
+}
+
+.box {
+  height: 100px;
+  line-height: 100px;
+  font-size: 50px;
+}
+
+.boxHover:hover {
+  background-color: rgba(0, 0, 0, 0.125);
+}
+
+.statusPanel {
+  width: 200px;
+  top: 50px;
+  background-color: rgba(205, 133, 63, 0.8);
+  position: absolute;
+  margin-right: auto;
+  margin-left: auto;
+  padding: 30px 0;
+  text-align: center;
+  border-radius: 5px;
+  color: #fff;
+  font-size: 1.5em;
+}
+
+.bg_green {
+  background-color: #28a745;
+}
+
+.bg_blue {
+  background-color: #17a2b8;
+}
+
+.bg_warning {
+  background-color: #ffc107;
+}
